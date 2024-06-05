@@ -3,9 +3,9 @@ package dev.edgsel.ccredis_cli.resp
 import dev.edgsel.ccredis_cli.resp.category.RespTypeCategory
 
 enum class RespType(
-    override val firstByte: String,
-    override val category: RespTypeCategory
-) : Resp {
+    val firstByte: String,
+    val category: RespTypeCategory
+) {
     SIMPLE_STRING("+", RespTypeCategory.SIMPLE),
     SIMPLE_ERRORS("-", RespTypeCategory.SIMPLE),
     INTEGERS(":", RespTypeCategory.SIMPLE),
@@ -22,8 +22,8 @@ enum class RespType(
     PUSHES(">", RespTypeCategory.AGGREGATE),
 }
 
-fun RespType.getTypesByCategory(category: RespTypeCategory): List<RespType> {
+fun findByFirstType(firstByte: String): RespType? {
     return RespType
         .entries
-        .filter { it.category == category }
+        .find { it.firstByte == firstByte }
 }
